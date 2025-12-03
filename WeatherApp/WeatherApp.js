@@ -1,6 +1,6 @@
 // ==================== CONFIGURATION ====================
         const CONFIG = {
-            API_KEY: 'bd9c3a0b1476e99d3187e06003562b1e', // Replace with your OpenWeatherMap API key
+            API_KEY: '', // Replace with your OpenWeatherMap API key
             BASE_URL: 'https://api.openweathermap.org/data/2.5',
             UNITS: 'metric',
             LANG: 'vi'
