@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> 🌊 Sky & Ocean Weather </title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="Style.css">
+    <!-- Các icon khác được lấy từ: https://emojipedia.org/ -->
+</head>
+
+<body>
+    <!-- Background Animation -->
+    <div class="background-animation">
+        <!-- Stars -->
+        <div class="stars" id="stars"></div>
+
+        <!-- Sun/Moon -->
+        <div class="sun celestial-body" id="sun"></div>
+        <div class="moon celestial-body" id="moon"></div>
+
+        <!-- Clouds -->
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <div class="cloud cloud-3"></div>
+
+        <!-- Rain Container -->
+        <div class="rain-container" id="rainContainer"></div>
+
+        <!-- Ocean -->
+        <div class="ocean">
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+
+            <!-- Bubbles -->
+            <div id="bubbles"></div>
+
+            <!-- Fish -->
+            <div class="fish" style="bottom: 15%; animation-delay: 0s;">🐠</div>
+            <div class="fish" style="bottom: 10%; animation-delay: -5s; font-size: 1.2rem;">🐟</div>
+            <div class="fish" style="bottom: 20%; animation-delay: -10s;">🐡</div>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Đang tải dữ liệu thời tiết...</div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">🌊</span>
+                <h1>Sky & Ocean Weather</h1>
+                <span class="logo-icon">☀️</span>
+            </div>
+            <p class="tagline">Theo dõi thời tiết với giao diện bầu trời và biển cả</p>
+        </header>
+
+        <!-- Search Section -->
+        <div class="search-section">
+            <div class="search-container">
+                <i class="fas fa-search" style="color: rgba(255,255,255,0.6); margin-top: 14px;"></i>
+                <input type="text" class="search-input" id="searchInput" placeholder="Nhập tên thành phố..."
+                    autocomplete="off">
+                <div class="search-buttons">
+                    <button class="search-btn" id="searchBtn">
+                        <i class="fas fa-search"></i>
+                        Tìm kiếm
+                    </button>
+                    <button class="location-btn" id="locationBtn">
+                        <i class="fas fa-crosshairs"></i>
+                        Vị trí của tôi
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alert Banner -->
+        <div class="alert-banner" id="alertBanner">
+            <div class="alert-icon">⚠️</div>
+            <div class="alert-content">
+                <div class="alert-title">Cảnh báo thời tiết khẩn cấp!</div>
+                <div class="alert-text" id="alertText">Dự báo mưa lớn kèm giông trong 24h tới tại khu vực miền Trung.
+                </div>
+            </div>
+            <button class="alert-close" id="alertClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Main Weather Card -->
+        <div class="main-weather" id="mainWeather">
+            <div class="weather-header">
+                <div class="location-info">
+                    <h2 class="location-name">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span id="locationName">Hà Nội, Việt Nam</span>
+                    </h2>
+                    <p class="date-time" id="dateTime">Thứ Hai, 15 tháng 1, 2024 | 14:30</p>
+                </div>
+                <div class="current-weather">
+                    <div class="weather-icon-large" id="weatherIcon">☀️</div>
+                    <div class="temperature-display">
+                        <div class="temperature" id="temperature">28°</div>
+                        <div class="weather-condition" id="weatherCondition">Trời nắng</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weather-details">
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fas fa-temperature-high"></i></div>
+                    <div class="detail-info">
+                        <h4>Cảm giác như</h4>
+                        <p id="feelsLike">30°C</p>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fas fa-tint"></i></div>
+                    <div class="detail-info">
+                        <h4>Độ ẩm</h4>
+                        <p id="humidity">65%</p>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fas fa-wind"></i></div>
+                    <div class="detail-info">
+                        <h4>Tốc độ gió</h4>
+                        <p id="windSpeed">12 km/h</p>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fas fa-compass"></i></div>
+                    <div class="detail-info">
+                        <h4>Hướng gió</h4>
+                        <p id="windDirection">Đông Nam</p>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    <div class="detail-info">
+                        <h4>Áp suất</h4>
+                        <p id="pressure">1013 hPa</p>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fas fa-sun"></i></div>
+                    <div class="detail-info">
+                        <h4>Chỉ số UV</h4>
+                        <p id="uvIndex">6 (Cao)</p>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fas fa-cloud-rain"></i></div>
+                    <div class="detail-info">
+                        <h4>Khả năng mưa</h4>
+                        <p id="rainChance">20%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hourly Forecast -->
+        <div class="hourly-forecast">
+            <h3 class="section-title">
+                <i class="fas fa-clock"></i>
+                Dự báo theo giờ
+            </h3>
+            <div class="hourly-scroll" id="hourlyScroll">
+                <!-- Hourly cards will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Weekly Forecast -->
+        <div class="weekly-forecast">
+            <h3 class="section-title">
+                <i class="fas fa-calendar-alt"></i>
+                Dự báo 7 ngày tới
+            </h3>
+            <div id="weeklyForecast">
+                <!-- Weekly cards will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Weather Alerts -->
+        <div class="alerts-section">
+            <h3 class="section-title">
+                <i class="fas fa-exclamation-triangle"></i>
+                Cảnh báo thời tiết
+            </h3>
+            <div id="alertsList">
+                <!-- Alert cards will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Weather Map -->
+        <div class="weather-map">
+            <h3 class="section-title">
+                <i class="fas fa-map-marked-alt"></i>
+                Bản đồ thời tiết
+            </h3>
+            <div class="map-controls">
+                <button class="map-btn active" data-type="radar">Radar mưa</button>
+                <button class="map-btn" data-type="temp">Nhiệt độ</button>
+                <button class="map-btn" data-type="wind">Gió</button>
+                <button class="map-btn" data-type="cloud">Mây</button>
+            </div>
+            <div class="map-container">
+                <div class="map-placeholder">
+                    <i class="fas fa-satellite"></i>
+                    <p>Bản đồ radar thời tiết</p>
+                    <p style="font-size: 0.85rem; margin-top: 10px;">Kết nối API để hiển thị bản đồ thực tế</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>🌊 Sky & Ocean Weather © 2024 | Dữ liệu từ <a href="#">OpenWeatherMap API</a></p>
+            <p style="margin-top: 10px;">Lê Đức Vinh Khánh - MSSV 4910</p>
+        </footer>
+    </div>
+
+    <script src="WeatherApp.js"></script>
+</body>
+
+</html>
